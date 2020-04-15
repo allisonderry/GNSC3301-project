@@ -11,4 +11,5 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Markdown
 
-## So far in this project, we have done research on how to get genetic code from NCBI and put it into R Studio, how to put the genome sequence into a string of characters, and find start and stop codons for that sequence. Here is a link that I have been basing my research off of: https://a-little-book-of-r-for-bioinformatics.readthedocs.io/en/latest/src/chapter7.html 
+## So far in this project, we have done research on how to get genetic code from NCBI and put it into R Studio, how to put the genome sequence into a string of characters, and find start and stop codons for that sequence. Here is a link that I have been basing my research off of: https://a-little-book-of-r-for-bioinformatics.readthedocs.io/en/latest/src/chapter7.html -Allison Derry
+
