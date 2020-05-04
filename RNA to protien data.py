@@ -2,7 +2,7 @@
 file = open('sample_rna.txt', 'r')
 rna = file.read()
 
-print "RNA String: ", rna
+print ("RNA String: ", rna)
 
 # RNA codon table
 rna_codon = {"UUU" : "F", "CUU" : "L", "AUU" : "I", "GUU" : "V",
@@ -32,4 +32,4 @@ for i in range(0, len(rna)-(3+len(rna)%3), 3):
     protein_string += rna_codon[rna[i:i+3]]
 
 # Print the protein string
-print "Protein String: ", protein_string
+print ("Protein String: ", protein_string)
