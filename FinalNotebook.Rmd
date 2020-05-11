@@ -5,7 +5,23 @@ date: "May 10, 2020"
 output: html_document
 ---
 
-# When I wrote the initial code for this project, I broke our project goals into smaller steps: getting genome sequence from the NCBI, finding start and stop codons, transcription, translation, and resulting in an amino acid sequence. The basis for this project was basically BioPython, which is why we wrote it in Python. My code certainly worked, and laid a good foundation for what we needed to learn in order to make the project more user friendly. Some problems with my code are that you have to manually save the genome sequence on your computer and then edit the code in order for the program to find it and do what it is supposed to. Another problem is that I did not figure out how to get it to result in an amino acid sequence. However all of this was good practice for me to see how we could make this project better. A copy of my code is below: 
+# When I wrote the initial code for this project, 
+# I broke our project goals into smaller steps: 
+# getting genome sequence from the NCBI, finding 
+# start and stop codons, transcription, translation, 
+# and resulting in an amino acid sequence. The 
+# basis for this project was basically BioPython, 
+# which is why we wrote it in Python. My code 
+# certainly worked, and laid a good foundation for 
+# what we needed to learn in order to make the project 
+# more user friendly. Some problems with my code 
+# are that you have to manually save the genome sequence 
+# on your computer and then edit the code in order for 
+# the program to find it and do what it is supposed to. 
+# Another problem is that I did not figure out how to 
+# get it to result in an amino acid sequence. However 
+# all of this was good practice for me to see how we could 
+# make this project better. A copy of my code is below: 
 import re
 codon = []
 rcodon = []
@@ -78,7 +94,12 @@ while (int(answer) >= 0):
                 print("DNA sequence: ", codon[int(answer)] ,'\n', "RNA sequence:", rcodon[int(answer)])
 
 
-# Emma then wrote the code so that it would translate the sequence into an amino acid sequence. * This is Emma. Sequencing the amino acids from the RNA was not a difficult process, but trying to use the data written with the code we had already processed was the problem. 
+# Emma then wrote the code so that it would translate 
+# the sequence into an amino acid sequence. * This is 
+# Emma. Sequencing the amino acids from the RNA was 
+# not a difficult process, but trying to use the data 
+# written with the code we had already processed was 
+# the problem. 
 # Read the file and get the RNA string
 file = open('sample_rna.txt', 'r')
 rna = file.read()
@@ -114,4 +135,68 @@ for i in range(0, len(rna)-(3+len(rna)%3), 3):
 
 # Print the protein string
 print ("Protein String: ", protein_string)
-# Finally, Lauren was able to take those two components and put them together in order to create a simpler version of what we wrote and make it so 
+# Finally, Lauren was able to take those two components 
+# and put them together in order to create a simpler 
+# version of what we wrote and make it so that a DNA 
+# sequence could be entered and translated in a loop. 
+# Unlike the first rounds of code, the user does not 
+# need to change the paths for each sequence they may
+# need to translate. Instead they are prompted to copy
+# and paste the sequence directly into the program once 
+# they run it. The code makes it so they can copy and 
+# paste straight from ncbi as it removes any extra
+# characters and converts it to lowercase letters to be
+# read by the program. It was a lot simpler to continually
+# ask the user to copy and paste as needed than to have
+# the source path change for each sequence you want.
+# from what we've seen in class, it is more likely that
+# you would want a specific sequence transcribed and 
+# translated rather than the entire genome. The final
+# code is found separately in the repository (Finalcode.py)
+# and can be seen below:
+bad_chars = [' ','0', '1', '2', '3', '4', '5', '6', '7', '8', '9','\n', '\t']
+dna = str(input("please enter your DNA sequence in one line \n")).lower()
+while dna != "end":
+    for y in bad_chars :
+        dna = dna.replace(y, '')
+    print("input: \n", dna)
+    
+    replication = dna.maketrans("tcga", "agct")
+    print("Your complimentary sequence is shown below: \n", dna.translate(replication))
+    answer = dna.translate(replication)
+    transcription = answer.maketrans("tcga", "ucga")
+    print("The RNA sequence is shown below: \n", answer.translate(transcription))
+    mRNA = answer.translate(transcription)
+    n = 3
+    codons = [mRNA[i:i+n] for i in range (0, len(mRNA), n)]
+
+
+    protein = {"uuu" : "Phe-", "cuu" : "Leu-", "auu" : "Ile-", "guu" : "Val-",
+               "uuc" : "Phe-", "cuc" : "Leu-", "auc" : "Ile-", "guc" : "Val-",
+               "uua" : "Leu-", "cua" : "Leu-", "aua" : "Ile-", "gua" : "Val-",
+               "uug" : "Leu-", "cug" : "Leu-", "aug" : "Met-", "gug" : "Val-",
+               "ucu" : "Ser-", "ccu" : "Pro-", "acu" : "Thr-", "gcu" : "Ala-",
+               "ucc" : "Ser-", "ccc" : "Pro-", "acc" : "Thr-", "gcc" : "Ala-",
+               "uca" : "Ser-", "cca" : "Pro-", "aca" : "Thr-", "gca" : "Ala-",
+               "ucg" : "Ser-", "ccg" : "Pro-", "acg" : "Thr-", "gcg" : "Ala-",
+               "uau" : "Tyr-", "cau" : "His-", "aau" : "Asn-", "gau" : "Asp-",
+               "uac" : "Tyr-", "cac" : "His-", "aac" : "Asn-", "gac" : "Asp-",
+               "uaa" : "STOP \n", "caa" : "Gin-", "aaa" : "Lys-", "gaa" : "Glu-",
+               "uag" : "STOP \n", "cag" : "Gin-", "aag" : "Lys-", "gag" : "Glu-",
+               "ugu" : "Cys-", "cgu" : "Arg-", "agu" : "Ser-", "ggu" : "Gly-",
+               "ugc" : "Cys-", "cgc" : "Arg-", "agc" : "Ser-", "ggc" : "Gly-",
+               "uga" : "STOP \n", "cga" : "Arg-", "aga" : "Arg-", "gga" : "Gly-",
+               "ugg" : "Trp-", "cgg" : "Arg-", "agg" : "Arg-", "ggg" : "Gly-" 
+               }
+    protein_sequence = ""
+
+    for x in codons:
+        if x in protein:
+            protein_sequence += protein[x]
+        else:
+            protein_sequence += x
+    print("translation: ", protein_sequence)
+    dna = str(input("please enter your DNA sequence in one line or 'end' to quit \n")).lower()
+    if dna == "end":
+        print ("thank you :)")
+
