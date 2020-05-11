@@ -1,19 +1,24 @@
+#identify bad characters to be removed from input
 bad_chars = [' ','0', '1', '2', '3', '4', '5', '6', '7', '8', '9','\n', '\t']
+#ask for initial input and convert to lowercase
 dna = str(input("please enter your DNA sequence in one line \n")).lower()
+#create a loop to keep asking for input until they type 'end'
 while dna != "end":
     for y in bad_chars :
-        dna = dna.replace(y, '')
-    print("input: \n", dna)
+        dna = dna.replace(y, '') #delete the bad characters
+    print("input: \n", dna) #repeat the input with the changes made
     
-    replication = dna.maketrans("tcga", "agct")
+    replication = dna.maketrans("tcga", "agct") #switch a&t and c&g
     print("Your complimentary sequence is shown below: \n", dna.translate(replication))
-    answer = dna.translate(replication)
-    transcription = answer.maketrans("tcga", "ucga")
+    #display complimentary strand
+    answer = dna.translate(replication) #define complimentary strand
+    transcription = answer.maketrans("tcga", "ucga") #change t to u
     print("The RNA sequence is shown below: \n", answer.translate(transcription))
-    mRNA = answer.translate(transcription)
-    n = 3
-    codons = [mRNA[i:i+n] for i in range (0, len(mRNA), n)]
-
+    #show the transcribed sequence
+    mRNA = answer.translate(transcription) #define transcribed sequence
+    n = 3 #count by 3
+    codons = [mRNA[i:i+n] for i in range (0, len(mRNA), n)] 
+    #separate into 3 letter sequences called codons for the length of the mRNA
 
     protein = {"uuu" : "Phe-", "cuu" : "Leu-", "auu" : "Ile-", "guu" : "Val-",
                "uuc" : "Phe-", "cuc" : "Leu-", "auc" : "Ile-", "guc" : "Val-",
@@ -33,13 +38,17 @@ while dna != "end":
                "ugg" : "Trp-", "cgg" : "Arg-", "agg" : "Arg-", "ggg" : "Gly-" 
                }
     protein_sequence = ""
-
+    #convert codons to amino acids called protein sequence, create new lines
+    #after stop condons
+    
     for x in codons:
         if x in protein:
             protein_sequence += protein[x]
         else:
             protein_sequence += x
-    print("translation: ", protein_sequence)
+    print("translation: ", protein_sequence) #display amino acid sequnces
+    #ask for input and show how to quit the program
     dna = str(input("please enter your DNA sequence in one line or 'end' to quit \n")).lower()
     if dna == "end":
-        print ("thank you.")
+        print ("thank you :)")
+    #end program and print thank you when 'end' is entered
